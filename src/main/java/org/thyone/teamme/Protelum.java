@@ -1,18 +1,29 @@
 package org.thyone.teamme;
 
+import io.papermc.paper.datapack.Datapack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Collection;
+import java.util.logging.Level;
+
 
 public final class Protelum extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
-        System.out.println("[Protelum] Enabled");
+//        Collection<Datapack> Datapacks = getServer().getDatapackManager().getPacks();
+//
+//        for (Datapack datapack: Datapacks) {
+//            if (datapack.isEnabled()) {
+//                String name = datapack.getName();
+//
+//                getLogger().log(Level.INFO, name);
+//            }
+//        }
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        System.out.println("[Protelum] Disable");
     }
 }

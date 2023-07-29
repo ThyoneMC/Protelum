@@ -1,0 +1,10 @@
+name: Protelum
+version: '${version}'
+main: org.thyone.teamme.Protelum
+description: Paper plugin for teaming
+website: https://github.com/ThyoneMC/Protelum
+api-version: '1.20'
+commands:
+  protelum:
+    description: "Protelum Plugin"
+    usage: "/<command> <arg>"

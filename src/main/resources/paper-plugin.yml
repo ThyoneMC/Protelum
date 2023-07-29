@@ -1,6 +1,0 @@
-name: Protelum
-version: '${version}'
-main: org.thyone.teamme.Protelum
-api-version: '1.20'
-description: 'Paper plugin for teaming'
-website: 'https://github.com/ThyoneMC/Protelum'

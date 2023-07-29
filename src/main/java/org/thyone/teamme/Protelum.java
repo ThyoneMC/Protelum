@@ -1,15 +1,11 @@
 package org.thyone.teamme;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.command.CommandManager;
-import org.thyone.teamme.command.subcommand.CreateCommand;
+import org.thyone.teamme.command.CommandTabCompletion;
 import org.thyone.teamme.util.TeamStorage;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.logging.Level;
 
 public final class Protelum extends JavaPlugin {
@@ -30,21 +26,15 @@ public final class Protelum extends JavaPlugin {
         }
 
         getCommand("protelum").setExecutor(new CommandManager());
+        getCommand("protelum").setTabCompleter(new CommandTabCompletion());
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
-    }
-
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        getLogger().log(Level.ALL, command.getName());
-
-        if (command.getName().equalsIgnoreCase("protelum")) {
-
+        try {
+            TeamStorage.save();
+        } catch (IOException exception) {
+            getLogger().log(Level.WARNING, exception.getMessage(),exception.getCause());
         }
-
-        return true;
     }
 }

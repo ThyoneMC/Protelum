@@ -1,20 +1,17 @@
-package org.thyone.teamme.command.subcommand;
+package org.thyone.teamme.command.team;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.thyone.teamme.command.SubCommand;
-import org.thyone.teamme.model.Team;
-import org.thyone.teamme.model.TeamMember;
-import org.thyone.teamme.model.TeamRole;
+import org.thyone.teamme.model.*;
 import org.thyone.teamme.util.TeamStorage;
 
 import java.io.IOException;
 import java.util.logging.Level;
 
-public class CreateCommand extends SubCommand {
+public class TeamCreateCommand extends SubCommand {
     @Override
     public String getName() {
         return "create";
@@ -26,8 +23,10 @@ public class CreateCommand extends SubCommand {
     }
 
     @Override
-    public String getSyntax() {
-        return "<name>";
+    public SubCommandSyntax[] getSyntax() {
+        return new SubCommandSyntax[]{
+                new SubCommandSyntax(0,"name", true)
+        };
     }
 
     @Override
@@ -43,7 +42,7 @@ public class CreateCommand extends SubCommand {
         }
 
         String teamName = player.getName();
-        if (args.length > 1) {
+        if (args.length > 0) {
             teamName = String.join(" ", args);
         }
 

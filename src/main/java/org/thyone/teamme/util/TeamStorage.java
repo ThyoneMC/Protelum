@@ -22,7 +22,7 @@ public class TeamStorage {
     public static Team getTeamIn(UUID uuid) {
         for (Team team: teams) {
             for (TeamMember teamMember: team.members) {
-                if (teamMember.uuid == uuid) {
+                if (teamMember.uuid.equals(uuid)) {
                     return team;
                 }
             }
@@ -34,7 +34,7 @@ public class TeamStorage {
     public static TeamMember getTeamMember(UUID uuid) {
         for (Team team: teams) {
             for (TeamMember teamMember: team.members) {
-                if (teamMember.uuid == uuid) {
+                if (teamMember.uuid.equals(uuid)) {
                     return teamMember;
                 }
             }
@@ -47,7 +47,7 @@ public class TeamStorage {
         teamsLoop:
         for (Team team: teams) {
             for (TeamMember teamMember: team.members) {
-                if (teamMember.uuid == uuid) {
+                if (teamMember.uuid.equals(uuid)) {
                     if (teamMember.role == TeamRole.Owner) {
                         return team;
                     }
@@ -86,7 +86,7 @@ public class TeamStorage {
         if (file.exists()) {
             Reader reader = new FileReader(file);
             Team[] teamsJson = gson.fromJson(reader, Team[].class);
-            teams = new ArrayList<>(Arrays.asList(teamsJson));
+            teams = new ArrayList<>(Arrays.stream(teamsJson).toList());
 
             Bukkit.getLogger().log(Level.INFO, "Team Loaded");
         }
@@ -103,7 +103,7 @@ public class TeamStorage {
 
     public static Team read(UUID uuid) {
         for (Team team: teams) {
-            if (team.uuid == uuid) {
+            if (team.uuid.equals(uuid)) {
                 return team;
             }
         }
@@ -116,7 +116,7 @@ public class TeamStorage {
 
     public static void update(UUID uuid, TeamUpdate teamUpdate) throws IOException {
         for (Team team: teams) {
-            if (team.uuid == uuid) {
+            if (team.uuid.equals(uuid)) {
                 team = teamUpdate.edit(team);
                 break;
             }
@@ -127,7 +127,7 @@ public class TeamStorage {
 
     public static void delete(UUID uuid) throws IOException {
         for (Team team: teams) {
-            if (team.uuid == uuid) {
+            if (team.uuid.equals(uuid)) {
                 teams.remove(team);
                 break;
             }

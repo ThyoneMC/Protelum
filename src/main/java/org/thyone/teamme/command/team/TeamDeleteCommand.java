@@ -1,18 +1,19 @@
-package org.thyone.teamme.command.subcommand;
+package org.thyone.teamme.command.team;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.thyone.teamme.command.SubCommand;
+import org.thyone.teamme.model.SubCommand;
+import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
 import org.thyone.teamme.util.TeamStorage;
 
 import java.io.IOException;
 import java.util.logging.Level;
 
-public class DeleteCommand extends SubCommand {
+public class TeamDeleteCommand extends SubCommand {
     @Override
     public String getName() {
         return "delete";
@@ -24,8 +25,8 @@ public class DeleteCommand extends SubCommand {
     }
 
     @Override
-    public String getSyntax() {
-        return "";
+    public SubCommandSyntax[] getSyntax() {
+        return new SubCommandSyntax[0];
     }
 
     @Override

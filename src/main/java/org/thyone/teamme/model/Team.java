@@ -8,20 +8,20 @@ import java.util.UUID;
 public class Team implements Serializable {
     public String name;
     public final UUID uuid;
-    public final Date createdAt;
+    public final long createdAt;
     public ArrayList<TeamMember> members;
 
     public Team(String name) {
         this.name = name;
         this.uuid = UUID.randomUUID();
-        this.createdAt = new Date();
+        this.createdAt = new Date().getTime();
         this.members = new ArrayList<>();
     }
     // for saving
     public Team(String name, ArrayList<TeamMember> members) {
         this.name = name;
         this.uuid = UUID.randomUUID();
-        this.createdAt = new Date();
+        this.createdAt = new Date().getTime();
         this.members = members;
     }
 
@@ -35,7 +35,7 @@ public class Team implements Serializable {
 
     public TeamMember getMember(UUID uuid) {
         for (TeamMember teamMember: members) {
-            if (teamMember.uuid == uuid) {
+            if (teamMember.uuid.equals(uuid)) {
                 return teamMember;
             }
         }

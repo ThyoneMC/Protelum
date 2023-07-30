@@ -1,11 +1,12 @@
 package org.thyone.teamme.command.team;
 
+import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandGroup;
 
 public class TeamCommand extends SubCommandGroup {
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "team";
     }
 

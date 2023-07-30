@@ -2,6 +2,10 @@ plugins {
     id 'java'
 }
 
+jar {
+    destinationDirectory.set(file("D:\\Development\\Paper Server\\plugins"))
+}
+
 group = 'org.thyone'
 version = '1.0'
 

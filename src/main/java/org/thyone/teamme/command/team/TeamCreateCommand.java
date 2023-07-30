@@ -5,6 +5,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.model.*;
 import org.thyone.teamme.util.TeamStorage;
 
@@ -13,7 +14,7 @@ import java.util.logging.Level;
 
 public class TeamCreateCommand extends SubCommand {
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "create";
     }
 
@@ -25,7 +26,7 @@ public class TeamCreateCommand extends SubCommand {
     @Override
     public SubCommandSyntax[] getSyntax() {
         return new SubCommandSyntax[]{
-                new SubCommandSyntax(0,"name", true)
+                new TeamCreateNameSyntax()
         };
     }
 

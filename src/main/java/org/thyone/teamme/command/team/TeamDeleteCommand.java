@@ -5,6 +5,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
@@ -15,7 +16,7 @@ import java.util.logging.Level;
 
 public class TeamDeleteCommand extends SubCommand {
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "delete";
     }
 

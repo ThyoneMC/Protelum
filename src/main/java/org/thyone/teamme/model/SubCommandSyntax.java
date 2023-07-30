@@ -1,13 +1,10 @@
 package org.thyone.teamme.model;
 
-public class SubCommandSyntax {
-    public int index;
-    public String name;
-    public boolean isRequied;
+import org.jetbrains.annotations.NotNull;
 
-    public SubCommandSyntax(int syntaxIndex, String syntaxName, boolean isSyntaxRequied) {
-        index = syntaxIndex;
-        name = syntaxName;
-        isRequied = isSyntaxRequied;
-    }
+public abstract class SubCommandSyntax {
+    public abstract int getId();
+    public abstract @NotNull String getName();
+    public abstract String getDescription();
+    public abstract boolean getRequired();
 }

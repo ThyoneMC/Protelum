@@ -4,12 +4,13 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 
 public class DiscordCommand extends SubCommand {
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "discord";
     }
 

@@ -5,15 +5,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.thyone.teamme.command.discord.DiscordCommand;
-import org.thyone.teamme.command.team.TeamCommand;
 import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandBase;
 import org.thyone.teamme.model.SubCommandGroup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class CommandTabCompletion implements TabCompleter {
@@ -24,7 +21,7 @@ public class CommandTabCompletion implements TabCompleter {
         public CommandTabCompletionResult(boolean isSearchComplete) {
             this.complete = isSearchComplete;
             this.result = new ArrayList<>();
-        };
+        }
 
         public CommandTabCompletionResult(List<String> searchResult) {
             this.complete = true;

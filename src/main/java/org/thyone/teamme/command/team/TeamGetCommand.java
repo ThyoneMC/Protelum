@@ -4,19 +4,19 @@ import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.model.SubCommandBase;
 import org.thyone.teamme.model.SubCommandGroup;
 
-public class TeamCommand extends SubCommandGroup {
+public class TeamGetCommand extends SubCommandGroup {
     @Override
     public @NotNull String getName() {
-        return "team";
+        return "get";
     }
 
     @Override
     public String getDescription() {
-        return "team manager";
+        return "infomation of team";
     }
 
     @Override
     public SubCommandBase[] getSubCommand() {
-        return new SubCommandBase[]{new TeamCreateCommand(), new TeamDeleteCommand(), new TeamGetCommand()};
+        return new SubCommandBase[]{ new TeamGetMemberCommand(), new TeamGetInfoCommand() };
     }
 }

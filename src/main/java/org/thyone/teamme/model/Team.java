@@ -1,41 +1,41 @@
 package org.thyone.teamme.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 
-public class Team implements Serializable {
+public class Team extends ContentBase {
     public String name;
-    public final UUID uuid;
-    public final long createdAt;
     public ArrayList<TeamMember> members;
+    public long score;
 
     public Team(String name) {
+        super();
+
         this.name = name;
-        this.uuid = UUID.randomUUID();
-        this.createdAt = new Date().getTime();
         this.members = new ArrayList<>();
     }
-    // for saving
-    public Team(String name, ArrayList<TeamMember> members) {
-        this.name = name;
-        this.uuid = UUID.randomUUID();
-        this.createdAt = new Date().getTime();
-        this.members = members;
-    }
 
-    // for loading
     public Team(Team teamData) {
+        super(teamData);
+
         this.name = teamData.name;
-        this.uuid = teamData.uuid;
-        this.createdAt = teamData.createdAt;
         this.members = teamData.members;
+        this.score = teamData.score;
     }
 
     public TeamMember getMember(UUID uuid) {
         for (TeamMember teamMember: members) {
             if (teamMember.uuid.equals(uuid)) {
+                return teamMember;
+            }
+        }
+
+        return null;
+    }
+
+    public TeamMember getOwner() {
+        for (TeamMember teamMember: members) {
+            if (teamMember.role == TeamRole.Owner) {
                 return teamMember;
             }
         }

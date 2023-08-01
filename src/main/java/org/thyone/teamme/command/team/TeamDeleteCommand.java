@@ -17,7 +17,7 @@ import java.util.logging.Level;
 public class TeamDeleteCommand extends SubCommand {
     @Override
     public @NotNull String getName() {
-        return "delete";
+        return "remove";
     }
 
     @Override

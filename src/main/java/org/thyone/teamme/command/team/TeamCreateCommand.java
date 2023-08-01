@@ -15,7 +15,7 @@ import java.util.logging.Level;
 public class TeamCreateCommand extends SubCommand {
     @Override
     public @NotNull String getName() {
-        return "create";
+        return "add";
     }
 
     @Override

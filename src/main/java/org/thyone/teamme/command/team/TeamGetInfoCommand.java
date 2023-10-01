@@ -13,6 +13,7 @@ import org.thyone.teamme.util.TeamStorage;
 
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class TeamGetInfoCommand extends SubCommand {
     @Override
@@ -50,9 +51,16 @@ public class TeamGetInfoCommand extends SubCommand {
                         .color(NamedTextColor.AQUA);
         player.sendMessage(textNewLine);
 
+        TextComponent textName =
+                Component
+                        .text(MessageFormat.format("Name: {0}", teamIn.name))
+                        .color(NamedTextColor.AQUA);
+        player.sendMessage(textName);
+
+        UUID teamOwnerUUID = teamIn.getOwner().uuid;
         TextComponent textOwner =
                 Component
-                        .text(MessageFormat.format("Owner: {0}", Bukkit.getPlayer(teamIn.getOwner().uuid).getName()))
+                        .text(MessageFormat.format("Owner: {0}", Bukkit.getOfflinePlayer(teamOwnerUUID).getName()))
                         .color(NamedTextColor.AQUA);
         player.sendMessage(textOwner);
 

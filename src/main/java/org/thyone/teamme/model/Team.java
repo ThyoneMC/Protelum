@@ -6,6 +6,7 @@ import java.util.UUID;
 public class Team extends ContentBase {
     public String name;
     public ArrayList<TeamMember> members;
+    public ArrayList<UUID> invites;
     public long score;
 
     public Team(String name) {
@@ -13,6 +14,7 @@ public class Team extends ContentBase {
 
         this.name = name;
         this.members = new ArrayList<>();
+        this.invites = new ArrayList<>();
     }
 
     public Team(Team teamData) {
@@ -20,6 +22,7 @@ public class Team extends ContentBase {
 
         this.name = teamData.name;
         this.members = teamData.members;
+        this.invites = teamData.invites;
         this.score = teamData.score;
     }
 
@@ -41,5 +44,15 @@ public class Team extends ContentBase {
         }
 
         return null;
+    }
+
+    public boolean isInvite(UUID uuid) {
+        for (UUID invite: invites) {
+            if (invite.equals(uuid)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

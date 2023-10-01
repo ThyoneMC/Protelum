@@ -54,6 +54,16 @@ public class TeamStorage {
         return null;
     }
 
+    public static Team getTeamInvite(UUID userUuid, UUID teamUUID) {
+        for (Team team: storage.readAll()) {
+            if (team.uuid.equals(teamUUID) && team.isInvite(userUuid)) {
+                return team;
+            }
+        }
+
+        return null;
+    }
+
     // storage
 
     public static void load() throws IOException {

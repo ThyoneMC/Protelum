@@ -4,14 +4,20 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
+import org.thyone.teamme.model.TeamMember;
 import org.thyone.teamme.util.TeamStorage;
 
+import java.io.Console;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class TeamGetMemberCommand extends SubCommand {
     @Override
@@ -49,9 +55,15 @@ public class TeamGetMemberCommand extends SubCommand {
                         .color(NamedTextColor.AQUA);
         player.sendMessage(textNewLine);
 
+        ArrayList<String> teamMembers = new ArrayList<>();
+        for (TeamMember member: teamIn.members) {
+            OfflinePlayer thatPlayer = Bukkit.getOfflinePlayer(member.uuid);
+
+            teamMembers.add(thatPlayer.getName());
+        }
         TextComponent text =
                 Component
-                        .text(MessageFormat.format("Members: {0}", teamIn.members.stream().map(teamMember -> Bukkit.getPlayer(teamMember.uuid).getName()).toArray()))
+                        .text(MessageFormat.format("Members: {0}", String.join(", ", teamMembers)))
                         .color(NamedTextColor.AQUA);
         player.sendMessage(text);
     }

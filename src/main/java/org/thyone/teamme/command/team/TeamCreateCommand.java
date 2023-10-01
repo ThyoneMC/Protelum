@@ -32,10 +32,10 @@ public class TeamCreateCommand extends SubCommand {
 
     @Override
     public void execute(Player player, String[] args) {
-        if (null != TeamStorage.getTeamMember(player.getUniqueId())) {
+        if (TeamStorage.getTeamMember(player.getUniqueId()) != null) {
             TextComponent textTeamOwn =
                     Component
-                            .text("you can't create another team")
+                            .text("you can not create another team")
                             .color(NamedTextColor.RED);
             player.sendMessage(textTeamOwn);
 

@@ -3,6 +3,7 @@ package org.thyone.teamme;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.thyone.teamme.command.CommandManager;
 import org.thyone.teamme.command.CommandTabCompletion;
+import org.thyone.teamme.util.DiscordConfigFile;
 import org.thyone.teamme.util.TeamStorage;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ public final class Protelum extends JavaPlugin {
 
         try {
             TeamStorage.load();
+            DiscordConfigFile.load();
         } catch (IOException exception) {
             getLogger().log(Level.WARNING, exception.getMessage(),exception.getCause());
         }

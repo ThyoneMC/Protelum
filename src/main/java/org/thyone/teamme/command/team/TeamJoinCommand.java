@@ -69,10 +69,10 @@ public class TeamJoinCommand extends SubCommand {
             return;
         }
 
-        TextComponent textJoinError =
+        TextComponent textJoined =
                 Component
                         .text("Team Joined")
                         .color(NamedTextColor.GREEN);
-        player.sendMessage(textJoinError);
+        player.sendMessage(textJoined);
     }
 }

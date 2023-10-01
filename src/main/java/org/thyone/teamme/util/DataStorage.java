@@ -36,8 +36,6 @@ public class DataStorage<T extends ContentBase> {
         Bukkit.getLogger().log(Level.INFO, MessageFormat.format("{0} Saved", file.getName()));
     }
 
-
-
     public void load(Class<T[]> DataClass) throws IOException {
         if (file.exists()) {
             Reader reader = new FileReader(file);

@@ -71,26 +71,26 @@ public class TeamInviteCommand extends SubCommand {
         try {
             TeamStorage.update(teamOwn.uuid, teamOwn);
         } catch (IOException exception) {
-            TextComponent textInTeam =
+            TextComponent textInviteError =
                     Component
                             .text("Team Invite Error")
                             .color(NamedTextColor.RED);
-            player.sendMessage(textInTeam);
+            player.sendMessage(textInviteError);
 
             return;
         }
 
         TextComponent textSayJoin =
                 Component
-                        .text(MessageFormat.format("<{0}> are invite you to join the team [CLICK HERE TO JOIN]", targetPlayer.getName()))
+                        .text(MessageFormat.format("<{0}> are invite you to [ JOIN THE TEAM ]", targetPlayer.getName()))
                         .color(NamedTextColor.GOLD)
-                        .clickEvent(ClickEvent.runCommand(MessageFormat.format("/protelum team join {0}", teamOwn.uuid.toString())));
+                        .clickEvent(ClickEvent.suggestCommand(MessageFormat.format("/protelum team join {0}", teamOwn.uuid.toString())));
         targetPlayer.sendMessage(textSayJoin);
 
-        TextComponent textSayInvite =
+        TextComponent textInvited =
                 Component
-                        .text("Invited")
+                        .text("Invite sent")
                         .color(NamedTextColor.GREEN);
-        player.sendMessage(textSayInvite);
+        player.sendMessage(textInvited);
     }
 }

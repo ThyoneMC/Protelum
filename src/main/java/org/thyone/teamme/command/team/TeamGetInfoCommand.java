@@ -2,6 +2,7 @@ package org.thyone.teamme.command.team;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -54,14 +55,16 @@ public class TeamGetInfoCommand extends SubCommand {
         TextComponent textName =
                 Component
                         .text(MessageFormat.format("Name: {0}", teamIn.name))
-                        .color(NamedTextColor.AQUA);
+                        .color(NamedTextColor.AQUA)
+                        .clickEvent(ClickEvent.suggestCommand(MessageFormat.format("TeamUUID: {0}", teamIn.uuid.toString())));
         player.sendMessage(textName);
 
         UUID teamOwnerUUID = teamIn.getOwner().uuid;
         TextComponent textOwner =
                 Component
                         .text(MessageFormat.format("Owner: {0}", Bukkit.getOfflinePlayer(teamOwnerUUID).getName()))
-                        .color(NamedTextColor.AQUA);
+                        .color(NamedTextColor.AQUA)
+                        .clickEvent(ClickEvent.suggestCommand(MessageFormat.format("OwnerUUID: {0}", teamOwnerUUID.toString())));
         player.sendMessage(textOwner);
 
         Date createdTime = new Date();

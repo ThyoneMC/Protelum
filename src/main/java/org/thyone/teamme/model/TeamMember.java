@@ -1,6 +1,5 @@
 package org.thyone.teamme.model;
 
-import java.util.Date;
 import java.util.UUID;
 
 public class TeamMember extends ContentBase {

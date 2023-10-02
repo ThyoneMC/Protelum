@@ -3,21 +3,18 @@ package org.thyone.teamme.util;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.thyone.teamme.Protelum;
+import org.thyone.teamme.model.ProtelumConfig;
 
 import java.io.*;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.logging.Level;
 
-public class ConfigFile<T> {
-    public T data;
-    public File file;
+public class ConfigFile {
+    public static ProtelumConfig data;
+    public static File file = new File(Paths.get(Protelum.getPlugin().getDataFolder().getAbsolutePath(), "config.json").toString());
 
-    public ConfigFile(String name) {
-        this.file = new File(Paths.get(Protelum.getPlugin().getDataFolder().getAbsolutePath(), "config", MessageFormat.format("{0}.json", name)).toString());
-    }
-
-    public void create(T defaultData) throws IOException {
+    public static void create() throws IOException {
         if (file.getParentFile().mkdir()) {
             Bukkit.getLogger().log(Level.INFO, MessageFormat.format("{0} Folders Created", file.getName()));
         }
@@ -26,22 +23,26 @@ public class ConfigFile<T> {
         }
 
         Writer writer = new FileWriter(file);
-        new Gson().toJson(defaultData, writer);
+        new Gson().toJson(new ProtelumConfig(), writer);
         writer.flush();
         writer.close();
 
         Bukkit.getLogger().log(Level.INFO, MessageFormat.format("{0} Saved", file.getName()));
     }
 
-    public void load(Class<T> DataClass, T defaultData) throws IOException {
+    public static void load() throws IOException {
         if (!file.exists()) {
-            create(defaultData);
+            create();
         }
 
         Reader reader = new FileReader(file);
 
-        this.data = new Gson().fromJson(reader, DataClass);
+        data = new Gson().fromJson(reader, ProtelumConfig.class);
 
         Bukkit.getLogger().log(Level.INFO, MessageFormat.format("{0} Loaded", file.getName()));
+    }
+
+    public static ProtelumConfig getConfig() {
+        return data;
     }
 }

@@ -25,11 +25,11 @@ public class DiscordCommand extends SubCommand {
     }
 
     @Override
-    public void execute(Player player, String[] args) {
-        TextComponent textTeamOwn =
+    public TextComponent[] execute(Player player, String[] args) {
+        return new TextComponent[]{
                 Component
                         .text("This command is Work-In-Progress")
-                        .color(NamedTextColor.RED);
-        player.sendMessage(textTeamOwn);
+                        .color(NamedTextColor.RED)
+        };
     }
 }

@@ -11,6 +11,7 @@ import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
 import org.thyone.teamme.util.TeamStorage;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -34,50 +35,39 @@ public class TeamInviteCommand extends SubCommand {
     }
 
     @Override
-    public void execute(Player player, String[] args) {
+    public TextComponent[] execute(Player player, String[] args) {
         Team teamOwn = TeamStorage.getTeamOwn(player.getUniqueId());
-        if (teamOwn == null) {
-            TextComponent textNotOwn =
+        if (teamOwn == null)
+            return new TextComponent[]{
                     Component
                             .text("You are not owner of the team")
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textNotOwn);
-
-            return;
-        }
+                            .color(NamedTextColor.RED)
+            };
 
         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
-        if (targetPlayer == null) {
-            TextComponent textNotFound =
+        if (targetPlayer == null)
+            return new TextComponent[] {
                     Component
                             .text("Player Not Found")
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textNotFound);
+                            .color(NamedTextColor.RED)
+            };
 
-            return;
-        }
-
-        if (TeamStorage.getTeamMember(targetPlayer.getUniqueId()) != null) {
-            TextComponent textInTeam =
+        if (TeamStorage.getTeamMember(targetPlayer.getUniqueId()) != null)
+            return new TextComponent[]{
                     Component
                             .text("This member are already in some team")
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textInTeam);
-
-            return;
-        }
+                            .color(NamedTextColor.RED)
+            };
 
         teamOwn.invites.add(targetPlayer.getUniqueId());
         try {
             TeamStorage.update(teamOwn.uuid, teamOwn);
         } catch (IOException exception) {
-            TextComponent textInviteError =
+            return new TextComponent[]{
                     Component
                             .text("Team Invite Error")
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textInviteError);
-
-            return;
+                            .color(NamedTextColor.RED)
+            };
         }
 
         TextComponent textSayJoin =
@@ -87,10 +77,10 @@ public class TeamInviteCommand extends SubCommand {
                         .clickEvent(ClickEvent.suggestCommand(MessageFormat.format("/protelum team join {0}", teamOwn.uuid.toString())));
         targetPlayer.sendMessage(textSayJoin);
 
-        TextComponent textInvited =
+        return new TextComponent[]{
                 Component
                         .text("Invite sent")
-                        .color(NamedTextColor.GREEN);
-        player.sendMessage(textInvited);
+                        .color(NamedTextColor.GREEN)
+        };
     }
 }

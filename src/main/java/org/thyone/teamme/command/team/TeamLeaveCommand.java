@@ -29,46 +29,38 @@ public class TeamLeaveCommand extends SubCommand {
     }
 
     @Override
-    public void execute(Player player, String[] args) {
+    public TextComponent[] execute(Player player, String[] args) {
         Team teamIn = TeamStorage.getTeamIn(player.getUniqueId());
-        if (teamIn == null) {
-            TextComponent textNotFound =
+        if (teamIn == null)
+            return new TextComponent[]{
                     Component
                             .text("Team Not Found")
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textNotFound);
+                            .color(NamedTextColor.RED)
+            };
 
-            return;
-        }
-
-        if (teamIn.getOwner().uuid.equals(player.getUniqueId())) {
-            TextComponent textOwnerLeave =
+        if (teamIn.getOwner().uuid.equals(player.getUniqueId()))
+            return new TextComponent[]{
                     Component
                             .text("Owner of the team can not leave")
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textOwnerLeave);
-
-            return;
-        }
+                            .color(NamedTextColor.RED)
+            };
 
         teamIn.members.removeIf(member -> member.uuid.equals(player.getUniqueId()));
 
         try {
             TeamStorage.update(teamIn.uuid, teamIn);
         } catch (IOException exception) {
-            TextComponent textLeaveError =
+            return new TextComponent[]{
                     Component
                             .text("Team Leave Error")
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textLeaveError);
-
-            return;
+                            .color(NamedTextColor.RED)
+            };
         }
 
-        TextComponent textLeaved =
+        return new TextComponent[]{
                 Component
                         .text("Team Leaved")
-                        .color(NamedTextColor.GREEN);
-        player.sendMessage(textLeaved);
+                        .color(NamedTextColor.GREEN)
+        };
     }
 }

@@ -6,10 +6,12 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.thyone.teamme.model.*;
 import org.thyone.teamme.util.TeamStorage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 public class TeamCreateCommand extends SubCommand {
@@ -31,16 +33,13 @@ public class TeamCreateCommand extends SubCommand {
     }
 
     @Override
-    public void execute(Player player, String[] args) {
-        if (TeamStorage.getTeamMember(player.getUniqueId()) != null) {
-            TextComponent textTeamOwn =
+    public TextComponent[] execute(Player player, String[] args) {
+        if (TeamStorage.getTeamMember(player.getUniqueId()) != null)
+            return new TextComponent[]{
                     Component
                             .text("you can not create another team")
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textTeamOwn);
-
-            return;
-        }
+                            .color(NamedTextColor.RED)
+            };
 
         String teamName = player.getName();
         if (args.length > 0) {
@@ -54,14 +53,20 @@ public class TeamCreateCommand extends SubCommand {
 
         try {
             TeamStorage.create(newTeam);
-
-            TextComponent text =
-                    Component
-                            .text("Team Created")
-                            .color(NamedTextColor.GREEN);
-            player.sendMessage(text);
         } catch (IOException exception) {
             Bukkit.getLogger().log(Level.WARNING, exception.getMessage(),exception.getCause());
+
+            return new TextComponent[]{
+                    Component
+                            .text("Team Create Error")
+                            .color(NamedTextColor.RED)
+            };
         }
+
+        return new TextComponent[]{
+                Component
+                        .text("Team Created")
+                        .color(NamedTextColor.GREEN)
+        };
     }
 }

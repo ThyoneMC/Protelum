@@ -7,6 +7,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
@@ -33,46 +34,35 @@ public class TeamGetInfoCommand extends SubCommand {
     }
 
     @Override
-    public void execute(Player player, String[] args) {
+    public TextComponent[] execute(Player player, String[] args) {
         Team teamIn = TeamStorage.getTeamIn(player.getUniqueId());
-
-        if (null == teamIn) {
-            TextComponent textNotFound =
+        if (null == teamIn)
+            return new TextComponent[]{
                     Component
                             .text("Team Not Found")
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textNotFound);
-
-            return;
-        }
-
-        TextComponent textNewLine =
-                Component
-                        .text("--------------------")
-                        .color(NamedTextColor.AQUA);
-        player.sendMessage(textNewLine);
-
-        TextComponent textName =
-                Component
-                        .text(MessageFormat.format("Name: {0}", teamIn.name))
-                        .color(NamedTextColor.AQUA)
-                        .clickEvent(ClickEvent.suggestCommand(MessageFormat.format("TeamUUID: {0}", teamIn.uuid.toString())));
-        player.sendMessage(textName);
+                            .color(NamedTextColor.RED)
+            };
 
         UUID teamOwnerUUID = teamIn.getOwner().uuid;
-        TextComponent textOwner =
-                Component
-                        .text(MessageFormat.format("Owner: {0}", Bukkit.getOfflinePlayer(teamOwnerUUID).getName()))
-                        .color(NamedTextColor.AQUA)
-                        .clickEvent(ClickEvent.suggestCommand(MessageFormat.format("OwnerUUID: {0}", teamOwnerUUID.toString())));
-        player.sendMessage(textOwner);
 
         Date createdTime = new Date();
         createdTime.setTime(teamIn.createdAt);
-        TextComponent textCreateAt =
+
+        return new TextComponent[]{
+                Component
+                        .text("--------------------")
+                        .color(NamedTextColor.AQUA),
+                Component
+                        .text(MessageFormat.format("Name: {0}", teamIn.name))
+                        .color(NamedTextColor.AQUA)
+                        .clickEvent(ClickEvent.suggestCommand(MessageFormat.format("TeamUUID: {0}", teamIn.uuid.toString()))),
+                Component
+                        .text(MessageFormat.format("Owner: {0}", Bukkit.getOfflinePlayer(teamOwnerUUID).getName()))
+                        .color(NamedTextColor.AQUA)
+                        .clickEvent(ClickEvent.suggestCommand(MessageFormat.format("OwnerUUID: {0}", teamOwnerUUID.toString()))),
                 Component
                         .text(MessageFormat.format("Create At: {0}", createdTime))
-                        .color(NamedTextColor.AQUA);
-        player.sendMessage(textCreateAt);
+                        .color(NamedTextColor.AQUA)
+        };
     }
 }

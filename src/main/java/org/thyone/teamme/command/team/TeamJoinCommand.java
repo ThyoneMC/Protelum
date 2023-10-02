@@ -30,27 +30,21 @@ public class TeamJoinCommand extends SubCommand {
     }
 
     @Override
-    public void execute(Player player, String[] args) {
-        if (TeamStorage.getTeamMember(player.getUniqueId()) != null) {
-            TextComponent textInTeam =
+    public TextComponent[] execute(Player player, String[] args) {
+        if (TeamStorage.getTeamMember(player.getUniqueId()) != null)
+            return new TextComponent[]{
                     Component
                             .text("you can not join another team")
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textInTeam);
-
-            return;
-        }
+                            .color(NamedTextColor.RED)
+            };
 
         Team targetTeam = TeamStorage.getTeamInvite(player.getUniqueId(), UUID.fromString(args[0]));
-        if (targetTeam == null) {
-            TextComponent textNotFound =
+        if (targetTeam == null)
+            return new TextComponent[]{
                     Component
                             .text("Team Not Found")
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textNotFound);
-
-            return;
-        }
+                            .color(NamedTextColor.RED)
+            };
 
         targetTeam.members.add(
                 new TeamMember(player.getUniqueId(), TeamRole.Member)
@@ -60,19 +54,17 @@ public class TeamJoinCommand extends SubCommand {
         try {
             TeamStorage.update(targetTeam.uuid, targetTeam);
         } catch (IOException exception) {
-            TextComponent textJoinError =
+            return new TextComponent[]{
                     Component
                             .text("Team Join Error")
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textJoinError);
-
-            return;
+                            .color(NamedTextColor.RED)
+            };
         }
 
-        TextComponent textJoined =
+        return new TextComponent[]{
                 Component
                         .text("Team Joined")
-                        .color(NamedTextColor.GREEN);
-        player.sendMessage(textJoined);
+                        .color(NamedTextColor.GREEN)
+        };
     }
 }

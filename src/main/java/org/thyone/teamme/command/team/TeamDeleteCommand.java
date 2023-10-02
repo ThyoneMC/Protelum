@@ -6,6 +6,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
@@ -31,28 +32,31 @@ public class TeamDeleteCommand extends SubCommand {
     }
 
     @Override
-    public void execute(Player player, String[] args) {
+    public TextComponent[] execute(Player player, String[] args) {
         Team team = TeamStorage.getTeamOwn(player.getUniqueId());
-        if (null != team) {
-            try {
-                TeamStorage.delete(team.uuid);
+        if (team == null)
+            return new TextComponent[]{
+                    Component
+                            .text("Team Not Found")
+                            .color(NamedTextColor.RED)
+            };
 
-                TextComponent textDelete =
-                        Component
-                                .text("Team Deleted")
-                                .color(NamedTextColor.GREEN);
-                player.sendMessage(textDelete);
-            } catch (IOException exception) {
-                Bukkit.getLogger().log(Level.WARNING, exception.getMessage(), exception.getCause());
-            }
+        try {
+            TeamStorage.delete(team.uuid);
+        } catch (IOException exception) {
+            Bukkit.getLogger().log(Level.WARNING, exception.getMessage(), exception.getCause());
 
-            return;
+            return new TextComponent[]{
+                    Component
+                            .text("Team Delete Error")
+                            .color(NamedTextColor.RED)
+            };
         }
 
-        TextComponent textNotFound =
+        return new TextComponent[]{
                 Component
-                        .text("Team Not Found")
-                        .color(NamedTextColor.RED);
-        player.sendMessage(textNotFound);
+                        .text("Team Deleted")
+                        .color(NamedTextColor.GREEN)
+        };
     }
 }

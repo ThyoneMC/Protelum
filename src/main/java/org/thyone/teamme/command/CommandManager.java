@@ -22,7 +22,7 @@ public class CommandManager implements CommandExecutor {
             if (subCommandBase instanceof SubCommand subCommand) {
                 for (SubCommandSyntax subCommandSyntax: subCommand.getSyntax()) {
                     if (!(args.length > (index + subCommandSyntax.getId())) && subCommandSyntax.getRequired()) {
-                        TextComponent textTeamOwn =
+                        player.sendMessage(
                                 Component
                                         .text(MessageFormat.format(
                                                 "/protelum {0} {1}",
@@ -37,13 +37,16 @@ public class CommandManager implements CommandExecutor {
                                                                 .map(syntax -> "<" + syntax[0] + ((boolean) syntax[1] ? "" : "?") + ">").toList()
                                                 )
                                         ))
-                                        .color(NamedTextColor.RED);
-                        player.sendMessage(textTeamOwn);
+                                        .color(NamedTextColor.RED)
+                        );
                         return true;
                     }
                 }
 
-                subCommand.execute(player, Arrays.copyOfRange(args, index + 1, args.length));
+                TextComponent[] returnMessages = subCommand.execute(player, Arrays.copyOfRange(args, index + 1, args.length));
+                for (TextComponent message: returnMessages) {
+                    player.sendMessage(message);
+                }
             }
 
             if (subCommandBase instanceof SubCommandGroup subCommandGroup) {
@@ -53,21 +56,19 @@ public class CommandManager implements CommandExecutor {
                     }
                 }
 
-                TextComponent textTeamOwn =
-                        Component
-                                .text(MessageFormat.format(
-                                        "/protelum {0} [ {1} ]",
-                                        String.join(
-                                                " ",
-                                                Arrays.copyOfRange(args, 0 ,index + 1)
-                                        ),
-                                        String.join(
-                                                " | ",
-                                                Arrays.stream(subCommandGroup.getSubCommand()).map(SubCommandBase::getName).toList()
-                                        )
-                                ))
-                                .color(NamedTextColor.RED);
-                player.sendMessage(textTeamOwn);
+                player.sendMessage(Component
+                        .text(MessageFormat.format(
+                                "/protelum {0} [ {1} ]",
+                                String.join(
+                                        " ",
+                                        Arrays.copyOfRange(args, 0 ,index + 1)
+                                ),
+                                String.join(
+                                        " | ",
+                                        Arrays.stream(subCommandGroup.getSubCommand()).map(SubCommandBase::getName).toList()
+                                )
+                        ))
+                        .color(NamedTextColor.RED));
             }
 
             return true;
@@ -87,7 +88,7 @@ public class CommandManager implements CommandExecutor {
                 }
             }
 
-            TextComponent textTeamOwn =
+            player.sendMessage(
                     Component
                             .text(MessageFormat.format(
                                     "/protelum [ {0} ]",
@@ -96,8 +97,8 @@ public class CommandManager implements CommandExecutor {
                                             Arrays.stream(thisCommand.getSubCommand()).map(SubCommandBase::getName).toList()
                                     )
                             ))
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textTeamOwn);
+                            .color(NamedTextColor.RED)
+            );
         }
 
         return false;

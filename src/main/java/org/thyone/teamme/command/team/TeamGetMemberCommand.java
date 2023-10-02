@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
@@ -36,24 +37,14 @@ public class TeamGetMemberCommand extends SubCommand {
     }
 
     @Override
-    public void execute(Player player, String[] args) {
+    public @Nullable TextComponent[] execute(Player player, String[] args) {
         Team teamIn = TeamStorage.getTeamIn(player.getUniqueId());
-
-        if (null == teamIn) {
-            TextComponent textNotFound =
+        if (null == teamIn)
+            return new TextComponent[]{
                     Component
                             .text("Team Not Found")
-                            .color(NamedTextColor.RED);
-            player.sendMessage(textNotFound);
-
-            return;
-        }
-
-        TextComponent textNewLine =
-                Component
-                        .text("--------------------")
-                        .color(NamedTextColor.AQUA);
-        player.sendMessage(textNewLine);
+                            .color(NamedTextColor.RED)
+            };
 
         ArrayList<String> teamMembers = new ArrayList<>();
         for (TeamMember member: teamIn.members) {
@@ -61,10 +52,14 @@ public class TeamGetMemberCommand extends SubCommand {
 
             teamMembers.add(thatPlayer.getName());
         }
-        TextComponent text =
+
+        return new TextComponent[]{
+                Component
+                        .text("--------------------")
+                        .color(NamedTextColor.AQUA),
                 Component
                         .text(MessageFormat.format("Members: {0}", String.join(", ", teamMembers)))
-                        .color(NamedTextColor.AQUA);
-        player.sendMessage(text);
+                        .color(NamedTextColor.AQUA)
+        };
     }
 }

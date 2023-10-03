@@ -6,7 +6,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
@@ -33,7 +32,7 @@ public class TeamDeleteCommand extends SubCommand {
 
     @Override
     public TextComponent[] execute(Player player, String[] args) {
-        Team team = TeamStorage.getTeamOwn(player.getUniqueId());
+        Team team = TeamStorage.getTeamOwn(player.getUniqueId().toString());
         if (team == null)
             return new TextComponent[]{
                     Component

@@ -1,21 +1,19 @@
 package org.thyone.teamme.model;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
 public abstract class ContentBase implements Serializable {
-    public final UUID uuid;
+    public final String uuid;
     public final long createdAt;
 
     protected ContentBase() {
-        this.uuid = UUID.randomUUID();
+        this.uuid = UUID.randomUUID().toString();
         this.createdAt = new Date().getTime();
     }
 
-    protected ContentBase(UUID uuid) {
+    protected ContentBase(String uuid) {
         this.uuid = uuid;
         this.createdAt = new Date().getTime();
     }

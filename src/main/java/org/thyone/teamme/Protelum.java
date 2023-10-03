@@ -47,6 +47,8 @@ public final class Protelum extends JavaPlugin {
         try {
             ServerRequest client = new ServerRequest();
             client.dataUpdate(TeamStorage.storage.readAll().toArray(Team[]::new));
+
+            getLogger().log(Level.INFO, "Team package sent");
         } catch (Exception exception) {
             getLogger().log(Level.WARNING, exception.getMessage(), exception.getCause());
         }

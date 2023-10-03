@@ -30,7 +30,8 @@ public class TeamLeaveCommand extends SubCommand {
 
     @Override
     public TextComponent[] execute(Player player, String[] args) {
-        Team teamIn = TeamStorage.getTeamIn(player.getUniqueId());
+        String playerUUID = player.getUniqueId().toString();
+        Team teamIn = TeamStorage.getTeamIn(playerUUID);
         if (teamIn == null)
             return new TextComponent[]{
                     Component
@@ -38,14 +39,14 @@ public class TeamLeaveCommand extends SubCommand {
                             .color(NamedTextColor.RED)
             };
 
-        if (teamIn.getOwner().uuid.equals(player.getUniqueId()))
+        if (teamIn.getOwner().uuid.equals(playerUUID))
             return new TextComponent[]{
                     Component
                             .text("Owner of the team can not leave")
                             .color(NamedTextColor.RED)
             };
 
-        teamIn.members.removeIf(member -> member.uuid.equals(player.getUniqueId()));
+        teamIn.members.removeIf(member -> member.uuid.equals(playerUUID));
 
         try {
             TeamStorage.update(teamIn.uuid, teamIn);

@@ -9,7 +9,6 @@ import org.thyone.teamme.model.*;
 import org.thyone.teamme.util.TeamStorage;
 
 import java.io.IOException;
-import java.util.UUID;
 
 public class TeamJoinCommand extends SubCommand {
     @Override
@@ -31,14 +30,15 @@ public class TeamJoinCommand extends SubCommand {
 
     @Override
     public TextComponent[] execute(Player player, String[] args) {
-        if (TeamStorage.getTeamMember(player.getUniqueId()) != null)
+        String playerUUID = player.getUniqueId().toString();
+        if (TeamStorage.getTeamMember(playerUUID) != null)
             return new TextComponent[]{
                     Component
                             .text("you can not join another team")
                             .color(NamedTextColor.RED)
             };
 
-        Team targetTeam = TeamStorage.getTeamInvite(player.getUniqueId(), UUID.fromString(args[0]));
+        Team targetTeam = TeamStorage.getTeamInvite(playerUUID, args[0]);
         if (targetTeam == null)
             return new TextComponent[]{
                     Component
@@ -47,9 +47,9 @@ public class TeamJoinCommand extends SubCommand {
             };
 
         targetTeam.members.add(
-                new TeamMember(player.getUniqueId(), TeamRole.Member)
+                new TeamMember(playerUUID, TeamRole.Member)
         );
-        targetTeam.invites.removeIf(uuid -> uuid.equals(player.getUniqueId()));
+        targetTeam.invites.removeIf(uuid -> uuid.equals(playerUUID));
 
         try {
             TeamStorage.update(targetTeam.uuid, targetTeam);

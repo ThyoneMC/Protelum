@@ -13,7 +13,7 @@ import java.util.function.Function;
 import java.util.logging.Level;
 
 public class DataStorage<T extends ContentBase> {
-    public Map<UUID, T> data;
+    public Map<String, T> data;
     public File file;
 
     public DataStorage(String name) {
@@ -53,7 +53,7 @@ public class DataStorage<T extends ContentBase> {
         data.put(content.uuid, content);
     }
 
-    public T read(UUID uuid) {
+    public T read(String uuid) {
         return data.get(uuid);
     }
 
@@ -61,15 +61,15 @@ public class DataStorage<T extends ContentBase> {
         return data.values();
     }
 
-    public void update(UUID uuid, T content) {
+    public void update(String uuid, T content) {
         data.replace(uuid, content);
     }
 
-    public void update(UUID uuid, Function<T, T> contentUpdate) {
+    public void update(String uuid, Function<T, T> contentUpdate) {
         data.replace(uuid, contentUpdate.apply(read(uuid)));
     }
 
-    public void delete(UUID uuid) {
+    public void delete(String uuid) {
         data.remove(uuid);
     }
 }

@@ -6,12 +6,10 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.thyone.teamme.model.*;
 import org.thyone.teamme.util.TeamStorage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 
 public class TeamCreateCommand extends SubCommand {
@@ -34,7 +32,8 @@ public class TeamCreateCommand extends SubCommand {
 
     @Override
     public TextComponent[] execute(Player player, String[] args) {
-        if (TeamStorage.getTeamMember(player.getUniqueId()) != null)
+        String playerUUID = player.getUniqueId().toString();
+        if (TeamStorage.getTeamMember(playerUUID) != null)
             return new TextComponent[]{
                     Component
                             .text("you can not create another team")
@@ -48,7 +47,7 @@ public class TeamCreateCommand extends SubCommand {
 
         Team newTeam = new Team(teamName);
         newTeam.members.add(
-                new TeamMember(player.getUniqueId(), TeamRole.Owner)
+                new TeamMember(playerUUID, TeamRole.Owner)
         );
 
         try {

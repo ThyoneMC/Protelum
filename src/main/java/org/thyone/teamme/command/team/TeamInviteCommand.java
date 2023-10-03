@@ -11,7 +11,6 @@ import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
 import org.thyone.teamme.util.TeamStorage;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -36,7 +35,7 @@ public class TeamInviteCommand extends SubCommand {
 
     @Override
     public TextComponent[] execute(Player player, String[] args) {
-        Team teamOwn = TeamStorage.getTeamOwn(player.getUniqueId());
+        Team teamOwn = TeamStorage.getTeamOwn(player.getUniqueId().toString());
         if (teamOwn == null)
             return new TextComponent[]{
                     Component
@@ -52,14 +51,15 @@ public class TeamInviteCommand extends SubCommand {
                             .color(NamedTextColor.RED)
             };
 
-        if (TeamStorage.getTeamMember(targetPlayer.getUniqueId()) != null)
+        String targetPlayerUUID = targetPlayer.getUniqueId().toString();
+        if (TeamStorage.getTeamMember(targetPlayerUUID) != null)
             return new TextComponent[]{
                     Component
                             .text("This member are already in some team")
                             .color(NamedTextColor.RED)
             };
 
-        teamOwn.invites.add(targetPlayer.getUniqueId());
+        teamOwn.invites.add(targetPlayerUUID);
         try {
             TeamStorage.update(teamOwn.uuid, teamOwn);
         } catch (IOException exception) {
@@ -74,7 +74,7 @@ public class TeamInviteCommand extends SubCommand {
                 Component
                         .text(MessageFormat.format("<{0}> are invite you to [ JOIN THE TEAM ]", targetPlayer.getName()))
                         .color(NamedTextColor.GOLD)
-                        .clickEvent(ClickEvent.suggestCommand(MessageFormat.format("/protelum team join {0}", teamOwn.uuid.toString())));
+                        .clickEvent(ClickEvent.suggestCommand(MessageFormat.format("/protelum team join {0}", teamOwn.uuid)));
         targetPlayer.sendMessage(textSayJoin);
 
         return new TextComponent[]{

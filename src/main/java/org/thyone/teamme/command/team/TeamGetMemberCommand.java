@@ -14,11 +14,9 @@ import org.thyone.teamme.model.Team;
 import org.thyone.teamme.model.TeamMember;
 import org.thyone.teamme.util.TeamStorage;
 
-import java.io.Console;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.UUID;
 
 public class TeamGetMemberCommand extends SubCommand {
     @Override
@@ -38,7 +36,7 @@ public class TeamGetMemberCommand extends SubCommand {
 
     @Override
     public @Nullable TextComponent[] execute(Player player, String[] args) {
-        Team teamIn = TeamStorage.getTeamIn(player.getUniqueId());
+        Team teamIn = TeamStorage.getTeamIn(player.getUniqueId().toString());
         if (null == teamIn)
             return new TextComponent[]{
                     Component
@@ -48,7 +46,7 @@ public class TeamGetMemberCommand extends SubCommand {
 
         ArrayList<String> teamMembers = new ArrayList<>();
         for (TeamMember member: teamIn.members) {
-            OfflinePlayer thatPlayer = Bukkit.getOfflinePlayer(member.uuid);
+            OfflinePlayer thatPlayer = Bukkit.getOfflinePlayer(UUID.fromString(member.uuid));
 
             teamMembers.add(thatPlayer.getName());
         }

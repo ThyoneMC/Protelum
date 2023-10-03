@@ -6,10 +6,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.thyone.teamme.model.DiscordMember;
 import org.thyone.teamme.model.ServerResponse;
 import org.thyone.teamme.model.ServerVerifyResponse;
+import org.thyone.teamme.util.DiscordMemberStorage;
 import org.thyone.teamme.util.ServerRequest;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 
 public class PlayerJoin implements Listener {
@@ -24,6 +27,17 @@ public class PlayerJoin implements Listener {
             response = client.findVerification(player.getUniqueId());
             if (response == null) return;
         } catch (UnknownHostException exception) {
+            player.sendMessage(
+                    Component
+                            .text("Verification Fails")
+                            .color(NamedTextColor.RED)
+            );
+            return;
+        }
+
+        try {
+            DiscordMemberStorage.create(new DiscordMember(response.data.discordId));
+        } catch (IOException exception) {
             player.sendMessage(
                     Component
                             .text("Verification Fails")

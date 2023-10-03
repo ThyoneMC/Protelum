@@ -71,4 +71,15 @@ public class ServerRequest {
 
         client.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
     }
+
+    public void teamDelete(String uuid) {
+        URI targetURI = URI.create(MessageFormat.format("{0}/{1}", this.baseURL, uuid));
+        HttpRequest httpRequest = HttpRequest
+                .newBuilder(targetURI)
+                .DELETE()
+                .header("Accept", "application/json")
+                .build();
+
+        client.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
+    }
 }

@@ -1,12 +1,11 @@
 package org.thyone.teamme.model;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class Team extends ContentBase {
     public String name;
     public ArrayList<TeamMember> members;
-    public ArrayList<UUID> invites;
+    public ArrayList<String> invites;
     public long score;
 
     public Team(String name) {
@@ -26,7 +25,7 @@ public class Team extends ContentBase {
         this.score = teamData.score;
     }
 
-    public TeamMember getMember(UUID uuid) {
+    public TeamMember getMember(String uuid) {
         for (TeamMember teamMember: members) {
             if (teamMember.uuid.equals(uuid)) {
                 return teamMember;
@@ -46,8 +45,8 @@ public class Team extends ContentBase {
         return null;
     }
 
-    public boolean isInvite(UUID uuid) {
-        for (UUID invite: invites) {
+    public boolean isInvite(String  uuid) {
+        for (String invite: invites) {
             if (invite.equals(uuid)) {
                 return true;
             }

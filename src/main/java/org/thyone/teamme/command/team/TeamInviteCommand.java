@@ -14,6 +14,7 @@ import org.thyone.teamme.util.TeamStorage;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.UUID;
 
 public class TeamInviteCommand extends SubCommand {
     @Override
@@ -35,7 +36,7 @@ public class TeamInviteCommand extends SubCommand {
 
     @Override
     public TextComponent[] execute(Player player, String[] args) {
-        Team teamOwn = TeamStorage.getTeamOwn(player.getUniqueId().toString());
+        Team teamOwn = TeamStorage.getTeamOwn(player.getUniqueId());
         if (teamOwn == null)
             return new TextComponent[]{
                     Component
@@ -51,7 +52,7 @@ public class TeamInviteCommand extends SubCommand {
                             .color(NamedTextColor.RED)
             };
 
-        String targetPlayerUUID = targetPlayer.getUniqueId().toString();
+        UUID targetPlayerUUID = targetPlayer.getUniqueId();
         if (TeamStorage.getTeamMember(targetPlayerUUID) != null)
             return new TextComponent[]{
                     Component

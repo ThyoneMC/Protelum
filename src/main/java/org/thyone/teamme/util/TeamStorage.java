@@ -1,11 +1,12 @@
 package org.thyone.teamme.util;
 
-import org.bukkit.Bukkit;
+import org.thyone.teamme.Protelum;
 import org.thyone.teamme.model.Team;
 import org.thyone.teamme.model.TeamMember;
 import org.thyone.teamme.model.TeamRole;
 
 import java.io.*;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class TeamStorage {
@@ -13,7 +14,7 @@ public class TeamStorage {
 
     // utils
 
-    public static Team getTeamIn(String uuid) {
+    public static Team getTeamIn(UUID uuid) {
         for (Team team: storage.readAll()) {
             if (null != team.getMember(uuid)) {
                 return team;
@@ -23,7 +24,7 @@ public class TeamStorage {
         return null;
     }
 
-    public static TeamMember getTeamMember(String uuid) {
+    public static TeamMember getTeamMember(UUID uuid) {
         for (Team team: storage.readAll()) {
             TeamMember teamMember = team.getMember(uuid);
             if (null != team.getMember(uuid)) {
@@ -34,7 +35,7 @@ public class TeamStorage {
         return null;
     }
 
-    public static Team getTeamOwn(String uuid) {
+    public static Team getTeamOwn(UUID uuid) {
         teamsLoop:
         for (Team team: storage.readAll()) {
             for (TeamMember teamMember: team.members) {
@@ -55,7 +56,7 @@ public class TeamStorage {
         return null;
     }
 
-    public static Team getTeamInvite(String  userUuid, String  teamUUID) {
+    public static Team getTeamInvite(UUID userUuid, UUID teamUUID) {
         for (Team team: storage.readAll()) {
             if (team.uuid.equals(teamUUID) && team.isInvite(userUuid)) {
                 return team;
@@ -84,17 +85,17 @@ public class TeamStorage {
         return team;
     }
 
-    public static Team read(String uuid) {
+    public static Team read(UUID uuid) {
         return storage.read(uuid);
     }
 
-    public static void update(String uuid, Team teamData) throws IOException {
+    public static void update(UUID uuid, Team teamData) throws IOException {
         storage.update(uuid, teamData);
 
         save();
     }
 
-    public static void delete(String uuid) throws IOException {
+    public static void delete(UUID uuid) throws IOException {
         storage.delete(uuid);
 
         save();
@@ -103,7 +104,7 @@ public class TeamStorage {
             ServerRequest client = new ServerRequest();
             client.teamDelete(uuid);
         } catch (Exception exception) {
-            Bukkit.getLogger().log(Level.WARNING, exception.getMessage(), exception.getCause());
+            Protelum.getPlugin().getLogger().log(Level.WARNING, exception.getMessage(), exception.getCause());
         }
     }
 }

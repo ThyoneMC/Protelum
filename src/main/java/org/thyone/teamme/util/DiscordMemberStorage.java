@@ -3,6 +3,7 @@ package org.thyone.teamme.util;
 import org.thyone.teamme.model.DiscordMember;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class DiscordMemberStorage {
     public static DataStorage<DiscordMember> storage = new DataStorage<>("user");
@@ -26,17 +27,17 @@ public class DiscordMemberStorage {
         return member;
     }
 
-    public static DiscordMember read(String uuid) {
+    public static DiscordMember read(UUID uuid) {
         return storage.read(uuid);
     }
 
-    public static void update(String uuid, DiscordMember memberData) throws IOException {
+    public static void update(UUID uuid, DiscordMember memberData) throws IOException {
         storage.update(uuid, memberData);
 
         save();
     }
 
-    public static void delete(String uuid) throws IOException {
+    public static void delete(UUID uuid) throws IOException {
         storage.delete(uuid);
 
         save();

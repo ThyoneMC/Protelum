@@ -36,7 +36,7 @@ public class TeamGetMemberCommand extends SubCommand {
 
     @Override
     public @Nullable TextComponent[] execute(Player player, String[] args) {
-        Team teamIn = TeamStorage.getTeamIn(player.getUniqueId().toString());
+        Team teamIn = TeamStorage.getTeamIn(player.getUniqueId());
         if (null == teamIn)
             return new TextComponent[]{
                     Component
@@ -46,7 +46,7 @@ public class TeamGetMemberCommand extends SubCommand {
 
         ArrayList<String> teamMembers = new ArrayList<>();
         for (TeamMember member: teamIn.members) {
-            OfflinePlayer thatPlayer = Bukkit.getOfflinePlayer(UUID.fromString(member.uuid));
+            OfflinePlayer thatPlayer = Bukkit.getOfflinePlayer(member.uuid);
 
             teamMembers.add(thatPlayer.getName());
         }

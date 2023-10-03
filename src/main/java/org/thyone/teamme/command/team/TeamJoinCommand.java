@@ -9,6 +9,7 @@ import org.thyone.teamme.model.*;
 import org.thyone.teamme.util.TeamStorage;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class TeamJoinCommand extends SubCommand {
     @Override
@@ -30,7 +31,7 @@ public class TeamJoinCommand extends SubCommand {
 
     @Override
     public TextComponent[] execute(Player player, String[] args) {
-        String playerUUID = player.getUniqueId().toString();
+        UUID playerUUID = player.getUniqueId();
         if (TeamStorage.getTeamMember(playerUUID) != null)
             return new TextComponent[]{
                     Component
@@ -38,7 +39,7 @@ public class TeamJoinCommand extends SubCommand {
                             .color(NamedTextColor.RED)
             };
 
-        Team targetTeam = TeamStorage.getTeamInvite(playerUUID, args[0]);
+        Team targetTeam = TeamStorage.getTeamInvite(playerUUID, UUID.fromString(args[0]));
         if (targetTeam == null)
             return new TextComponent[]{
                     Component

@@ -1,7 +1,6 @@
 package org.thyone.teamme.util;
 
 import com.google.gson.Gson;
-import org.bukkit.Bukkit;
 import org.thyone.teamme.Protelum;
 import org.thyone.teamme.model.ProtelumConfig;
 
@@ -16,10 +15,10 @@ public class ConfigFile {
 
     public static void create() throws IOException {
         if (file.getParentFile().mkdir()) {
-            Bukkit.getLogger().log(Level.INFO, MessageFormat.format("{0} Folders Created", file.getName()));
+            Protelum.getPlugin().getLogger().log(Level.INFO, MessageFormat.format("{0} Folders Created", file.getName()));
         }
         if (file.createNewFile()) {
-            Bukkit.getLogger().log(Level.INFO, MessageFormat.format("{0} Created", file.getName()));
+            Protelum.getPlugin().getLogger().log(Level.INFO, MessageFormat.format("{0} Created", file.getName()));
         }
 
         Writer writer = new FileWriter(file);
@@ -27,7 +26,7 @@ public class ConfigFile {
         writer.flush();
         writer.close();
 
-        Bukkit.getLogger().log(Level.INFO, MessageFormat.format("{0} Saved", file.getName()));
+        Protelum.getPlugin().getLogger().log(Level.INFO, MessageFormat.format("{0} Saved", file.getName()));
     }
 
     public static void load() throws IOException {
@@ -39,7 +38,7 @@ public class ConfigFile {
 
         data = new Gson().fromJson(reader, ProtelumConfig.class);
 
-        Bukkit.getLogger().log(Level.INFO, MessageFormat.format("{0} Loaded", file.getName()));
+        Protelum.getPlugin().getLogger().log(Level.INFO, MessageFormat.format("{0} Loaded", file.getName()));
     }
 
     public static ProtelumConfig getConfig() {

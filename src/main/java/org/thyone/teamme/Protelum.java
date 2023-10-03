@@ -4,12 +4,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.thyone.teamme.command.CommandManager;
 import org.thyone.teamme.command.CommandTabCompletion;
 import org.thyone.teamme.event.PlayerJoin;
-import org.thyone.teamme.model.Team;
+import org.thyone.teamme.model.RefreshRunnable;
 import org.thyone.teamme.util.ConfigFile;
-import org.thyone.teamme.util.ServerRequest;
 import org.thyone.teamme.util.TeamStorage;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public final class Protelum extends JavaPlugin {
@@ -34,6 +36,10 @@ public final class Protelum extends JavaPlugin {
         getCommand("protelum").setTabCompleter(new CommandTabCompletion());
 
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+
+        long RefreshRate = ConfigFile.getConfig().REFRESH_RATE;
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleWithFixedDelay(RefreshRunnable.RefreshTeam(), RefreshRate * 2, RefreshRate, TimeUnit.SECONDS);
     }
 
     @Override
@@ -42,15 +48,6 @@ public final class Protelum extends JavaPlugin {
             TeamStorage.save();
         } catch (IOException exception) {
             getLogger().log(Level.WARNING, exception.getMessage(),exception.getCause());
-        }
-
-        try {
-            ServerRequest client = new ServerRequest();
-            client.dataUpdate(TeamStorage.storage.readAll().toArray(Team[]::new));
-
-            getLogger().log(Level.INFO, "Team package sent");
-        } catch (Exception exception) {
-            getLogger().log(Level.WARNING, exception.getMessage(), exception.getCause());
         }
     }
 }

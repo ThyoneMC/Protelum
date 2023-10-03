@@ -6,10 +6,12 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.thyone.teamme.Protelum;
 import org.thyone.teamme.model.*;
 import org.thyone.teamme.util.TeamStorage;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class TeamCreateCommand extends SubCommand {
@@ -32,7 +34,7 @@ public class TeamCreateCommand extends SubCommand {
 
     @Override
     public TextComponent[] execute(Player player, String[] args) {
-        String playerUUID = player.getUniqueId().toString();
+        UUID playerUUID = player.getUniqueId();
         if (TeamStorage.getTeamMember(playerUUID) != null)
             return new TextComponent[]{
                     Component
@@ -53,7 +55,7 @@ public class TeamCreateCommand extends SubCommand {
         try {
             TeamStorage.create(newTeam);
         } catch (IOException exception) {
-            Bukkit.getLogger().log(Level.WARNING, exception.getMessage(),exception.getCause());
+            Protelum.getPlugin().getLogger().log(Level.WARNING, exception.getMessage(),exception.getCause());
 
             return new TextComponent[]{
                     Component

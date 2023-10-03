@@ -1,12 +1,19 @@
 package org.thyone.teamme.model;
 
-public class DiscordMember extends ContentBase {
+import java.util.UUID;
 
-    public DiscordMember(String discordId) {
-        super(discordId);
+public class DiscordMember extends ContentBase {
+    public String discordId;
+
+    public DiscordMember(UUID uuid, String discordId) {
+        super(uuid);
+
+        this.discordId = discordId;
     }
 
     public DiscordMember(DiscordMember member) {
         super(member);
+
+        this.discordId = member.discordId;
     }
 }

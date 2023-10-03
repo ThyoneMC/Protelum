@@ -7,7 +7,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.thyone.teamme.model.DiscordMember;
-import org.thyone.teamme.model.ServerResponse;
 import org.thyone.teamme.model.ServerVerifyResponse;
 import org.thyone.teamme.util.DiscordMemberStorage;
 import org.thyone.teamme.util.ServerRequest;
@@ -36,7 +35,7 @@ public class PlayerJoin implements Listener {
         }
 
         try {
-            DiscordMemberStorage.create(new DiscordMember(response.data.discordId));
+            DiscordMemberStorage.create(new DiscordMember(player.getUniqueId(), response.data.discordId));
         } catch (IOException exception) {
             player.sendMessage(
                     Component

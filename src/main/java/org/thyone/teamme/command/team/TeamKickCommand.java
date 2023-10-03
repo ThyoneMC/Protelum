@@ -3,65 +3,64 @@ package org.thyone.teamme.command.team;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
 import org.thyone.teamme.util.TeamStorage;
-
 import java.io.IOException;
 import java.util.UUID;
 
-public class TeamLeaveCommand extends SubCommand {
+public class TeamKickCommand extends SubCommand {
     @Override
     public @NotNull String getName() {
-        return "leave";
+        return "kick";
     }
 
     @Override
     public String getDescription() {
-        return "leave from the current team";
+        return "kick player from the team";
     }
 
     @Override
     public SubCommandSyntax[] getSyntax() {
-        return new SubCommandSyntax[0];
+        return new SubCommandSyntax[]{new TeamInviteNameSyntax()};
     }
 
     @Override
     public TextComponent[] execute(Player player, String[] args) {
         UUID playerUUID = player.getUniqueId();
-        Team teamIn = TeamStorage.getTeamIn(playerUUID);
-        if (teamIn == null)
+        Team team = TeamStorage.getTeamOwn(playerUUID);
+        if (team == null)
             return new TextComponent[]{
                     Component
                             .text("Team Not Found")
                             .color(NamedTextColor.RED)
             };
 
-        if (teamIn.getOwner().uuid.equals(playerUUID))
+        UUID targetPlayerUUID = Bukkit.getOfflinePlayer(args[0]).getUniqueId();
+        if (playerUUID.equals(targetPlayerUUID))
             return new TextComponent[]{
                     Component
-                            .text("Owner of the team can not leave")
+                            .text("You can not kick owner of the team")
                             .color(NamedTextColor.RED)
             };
 
-        teamIn.members.removeIf(member -> member.uuid.equals(playerUUID));
-
         try {
-            TeamStorage.update(teamIn.uuid, teamIn);
+            TeamStorage.update(team.uuid, team);
         } catch (IOException exception) {
             return new TextComponent[]{
                     Component
-                            .text("Team Leave Error")
+                            .text("Team Kick Error")
                             .color(NamedTextColor.RED)
             };
         }
 
         return new TextComponent[]{
                 Component
-                        .text("Team Leaved")
+                        .text("Player Kicked")
                         .color(NamedTextColor.GREEN)
         };
     }

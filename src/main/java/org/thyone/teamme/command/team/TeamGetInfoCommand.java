@@ -34,7 +34,7 @@ public class TeamGetInfoCommand extends SubCommand {
 
     @Override
     public TextComponent[] execute(Player player, String[] args) {
-        Team teamIn = TeamStorage.getTeamIn(player.getUniqueId().toString());
+        Team teamIn = TeamStorage.getTeamIn(player.getUniqueId());
         if (null == teamIn)
             return new TextComponent[]{
                     Component
@@ -42,7 +42,7 @@ public class TeamGetInfoCommand extends SubCommand {
                             .color(NamedTextColor.RED)
             };
 
-        String teamOwnerUUID = teamIn.getOwner().uuid;
+        UUID teamOwnerUUID = teamIn.getOwner().uuid;
 
         Date createdTime = new Date();
         createdTime.setTime(teamIn.createdAt);
@@ -56,7 +56,7 @@ public class TeamGetInfoCommand extends SubCommand {
                         .color(NamedTextColor.AQUA)
                         .clickEvent(ClickEvent.suggestCommand(MessageFormat.format("TeamUUID: {0}", teamIn.uuid))),
                 Component
-                        .text(MessageFormat.format("Owner: {0}", Bukkit.getOfflinePlayer(UUID.fromString(teamOwnerUUID)).getName()))
+                        .text(MessageFormat.format("Owner: {0}", Bukkit.getOfflinePlayer(teamOwnerUUID).getName()))
                         .color(NamedTextColor.AQUA)
                         .clickEvent(ClickEvent.suggestCommand(MessageFormat.format("OwnerUUID: {0}", teamOwnerUUID))),
                 Component

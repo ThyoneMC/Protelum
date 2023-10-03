@@ -1,7 +1,6 @@
 package org.thyone.teamme.util;
 
 import com.google.gson.Gson;
-import org.bukkit.Bukkit;
 import org.thyone.teamme.Protelum;
 import org.thyone.teamme.model.ContentBase;
 
@@ -13,7 +12,7 @@ import java.util.function.Function;
 import java.util.logging.Level;
 
 public class DataStorage<T extends ContentBase> {
-    public Map<String, T> data;
+    public Map<UUID, T> data;
     public File file;
 
     public DataStorage(String name) {
@@ -22,10 +21,10 @@ public class DataStorage<T extends ContentBase> {
     }
     public void save() throws IOException {
         if (file.getParentFile().mkdir()) {
-            Bukkit.getLogger().log(Level.INFO, MessageFormat.format("{0} Folders Created", file.getName()));
+            Protelum.getPlugin().getLogger().log(Level.INFO, MessageFormat.format("{0} Folders Created", file.getName()));
         }
         if (file.createNewFile()) {
-            Bukkit.getLogger().log(Level.INFO, MessageFormat.format("{0} Created", file.getName()));
+            Protelum.getPlugin().getLogger().log(Level.INFO, MessageFormat.format("{0} Created", file.getName()));
         }
 
         Writer writer = new FileWriter(file);
@@ -33,7 +32,7 @@ public class DataStorage<T extends ContentBase> {
         writer.flush();
         writer.close();
 
-        Bukkit.getLogger().log(Level.INFO, MessageFormat.format("{0} Saved", file.getName()));
+        Protelum.getPlugin().getLogger().log(Level.INFO, MessageFormat.format("{0} Saved", file.getName()));
     }
 
     public void load(Class<T[]> DataClass) throws IOException {
@@ -45,7 +44,7 @@ public class DataStorage<T extends ContentBase> {
                 data.putIfAbsent(content.uuid, content);
             }
 
-            Bukkit.getLogger().log(Level.INFO, MessageFormat.format("{0} Loaded", file.getName()));
+            Protelum.getPlugin().getLogger().log(Level.INFO, MessageFormat.format("{0} Loaded", file.getName()));
         }
     }
 
@@ -53,7 +52,7 @@ public class DataStorage<T extends ContentBase> {
         data.put(content.uuid, content);
     }
 
-    public T read(String uuid) {
+    public T read(UUID uuid) {
         return data.get(uuid);
     }
 
@@ -61,15 +60,15 @@ public class DataStorage<T extends ContentBase> {
         return data.values();
     }
 
-    public void update(String uuid, T content) {
+    public void update(UUID uuid, T content) {
         data.replace(uuid, content);
     }
 
-    public void update(String uuid, Function<T, T> contentUpdate) {
+    public void update(UUID uuid, Function<T, T> contentUpdate) {
         data.replace(uuid, contentUpdate.apply(read(uuid)));
     }
 
-    public void delete(String uuid) {
+    public void delete(UUID uuid) {
         data.remove(uuid);
     }
 }

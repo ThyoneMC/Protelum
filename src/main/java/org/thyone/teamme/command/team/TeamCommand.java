@@ -17,6 +17,6 @@ public class TeamCommand extends SubCommandGroup {
 
     @Override
     public SubCommandBase[] getSubCommand() {
-        return new SubCommandBase[]{new TeamCreateCommand(), new TeamDeleteCommand(), new TeamGetCommand(), new TeamInviteCommand(), new TeamJoinCommand(), new TeamLeaveCommand() };
+        return new SubCommandBase[]{new TeamCreateCommand(), new TeamDeleteCommand(), new TeamGetCommand(), new TeamInviteCommand(), new TeamJoinCommand(), new TeamLeaveCommand(), new TeamKickCommand() };
     }
 }

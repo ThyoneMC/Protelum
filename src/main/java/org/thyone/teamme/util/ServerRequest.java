@@ -42,7 +42,7 @@ public class ServerRequest {
     }
 
     public @Nullable ServerVerifyResponse findVerification(UUID uuid) {
-        URI targetURI = URI.create(MessageFormat.format("{0}/{1}", this.baseURL, uuid.toString()));
+        URI targetURI = URI.create(MessageFormat.format("{0}/{1}", this.baseURL, uuid));
         HttpRequest httpRequest = HttpRequest
                 .newBuilder(targetURI)
                 .GET()
@@ -60,8 +60,8 @@ public class ServerRequest {
         return new Gson().fromJson(response, ServerVerifyResponse.class);
     }
 
-    public void dataUpdate(Team[] data) {
-        URI targetURI = URI.create(MessageFormat.format("{0}/team", this.baseURL));
+    public void teamsUpdate(Team[] data) {
+        URI targetURI = URI.create(MessageFormat.format("{0}/teams", this.baseURL));
         HttpRequest httpRequest = HttpRequest
                 .newBuilder(targetURI)
                 .PUT(HttpRequest.BodyPublishers.noBody())
@@ -72,7 +72,7 @@ public class ServerRequest {
         client.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
     }
 
-    public void teamDelete(String uuid) {
+    public void teamDelete(UUID uuid) {
         URI targetURI = URI.create(MessageFormat.format("{0}/{1}", this.baseURL, uuid));
         HttpRequest httpRequest = HttpRequest
                 .newBuilder(targetURI)

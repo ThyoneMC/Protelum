@@ -1,4 +1,4 @@
-#Config
+# Config
 
 > Path: `/server/plugins/Protelum/config.json`
 

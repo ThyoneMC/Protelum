@@ -6,6 +6,7 @@ import org.thyone.teamme.model.ServerResponse;
 import org.thyone.teamme.model.ServerVerifyResponse;
 import org.thyone.teamme.model.Team;
 
+import java.io.IOException;
 import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -28,9 +29,10 @@ public class ServerRequest {
     public ServerResponse addVerification(UUID uuid, String verifyCode) {
         URI targetURI = URI.create(MessageFormat.format("{0}/{1}/{2}", this.baseURL, uuid.toString(), verifyCode));
         HttpRequest httpRequest = HttpRequest
-                .newBuilder(targetURI)
-                .POST(HttpRequest.BodyPublishers.noBody())
+                .newBuilder()
+                .uri(targetURI)
                 .header("Accept", "application/json")
+                .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
         String response = client
@@ -44,9 +46,10 @@ public class ServerRequest {
     public @Nullable ServerVerifyResponse findVerification(UUID uuid) {
         URI targetURI = URI.create(MessageFormat.format("{0}/{1}", this.baseURL, uuid));
         HttpRequest httpRequest = HttpRequest
-                .newBuilder(targetURI)
-                .GET()
+                .newBuilder()
+                .uri(targetURI)
                 .header("Accept", "application/json")
+                .GET()
                 .build();
 
         String response = client
@@ -60,24 +63,29 @@ public class ServerRequest {
         return new Gson().fromJson(response, ServerVerifyResponse.class);
     }
 
-    public void teamsUpdate(Team[] data) {
+    public void teamsUpdate(Team[] data) throws IOException, InterruptedException {
         URI targetURI = URI.create(MessageFormat.format("{0}/teams", this.baseURL));
+        URLConnection.setDefaultUseCaches("http", true);
+
+        String body = new Gson().toJson(data);
         HttpRequest httpRequest = HttpRequest
-                .newBuilder(targetURI)
-                .PUT(HttpRequest.BodyPublishers.noBody())
-                //.PUT(HttpRequest.BodyPublishers.ofString(data))
-                .headers("data", new Gson().toJson(data))
+                .newBuilder()
+                .uri(targetURI)
+                .header("Accept", "application/json")
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(body))
                 .build();
 
-        client.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
+        client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
     }
 
     public void teamDelete(UUID uuid) {
         URI targetURI = URI.create(MessageFormat.format("{0}/{1}", this.baseURL, uuid));
         HttpRequest httpRequest = HttpRequest
-                .newBuilder(targetURI)
-                .DELETE()
+                .newBuilder()
+                .uri(targetURI)
                 .header("Accept", "application/json")
+                .DELETE()
                 .build();
 
         client.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());

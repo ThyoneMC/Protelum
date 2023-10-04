@@ -26,8 +26,8 @@ public class ServerRequest {
         this.client = HttpClient.newHttpClient();
     }
 
-    public ServerResponse addVerification(UUID uuid, String verifyCode) {
-        URI targetURI = URI.create(MessageFormat.format("{0}/{1}/{2}", this.baseURL, uuid.toString(), verifyCode));
+    public ServerResponse createVerification(UUID uuid, String verifyCode) {
+        URI targetURI = URI.create(MessageFormat.format("{0}/verify/{1}/{2}", this.baseURL, uuid.toString(), verifyCode));
         HttpRequest httpRequest = HttpRequest
                 .newBuilder()
                 .uri(targetURI)
@@ -43,13 +43,13 @@ public class ServerRequest {
         return new Gson().fromJson(response, ServerResponse.class);
     }
 
-    public @Nullable ServerVerifyResponse findVerification(UUID uuid) {
-        URI targetURI = URI.create(MessageFormat.format("{0}/{1}", this.baseURL, uuid));
+    public @Nullable ServerVerifyResponse deleteVerification(UUID uuid) {
+        URI targetURI = URI.create(MessageFormat.format("{0}/verify/{1}", this.baseURL, uuid));
         HttpRequest httpRequest = HttpRequest
                 .newBuilder()
                 .uri(targetURI)
                 .header("Accept", "application/json")
-                .GET()
+                .DELETE()
                 .build();
 
         String response = client
@@ -63,9 +63,8 @@ public class ServerRequest {
         return new Gson().fromJson(response, ServerVerifyResponse.class);
     }
 
-    public void teamsUpdate(Team[] data) throws IOException, InterruptedException {
-        URI targetURI = URI.create(MessageFormat.format("{0}/teams", this.baseURL));
-        URLConnection.setDefaultUseCaches("http", true);
+    public void teamUpdate(Team[] data) throws IOException, InterruptedException {
+        URI targetURI = URI.create(MessageFormat.format("{0}/team", this.baseURL));
 
         String body = new Gson().toJson(data);
         HttpRequest httpRequest = HttpRequest
@@ -80,7 +79,7 @@ public class ServerRequest {
     }
 
     public void teamDelete(UUID uuid) {
-        URI targetURI = URI.create(MessageFormat.format("{0}/{1}", this.baseURL, uuid));
+        URI targetURI = URI.create(MessageFormat.format("{0}/team/{1}", this.baseURL, uuid));
         HttpRequest httpRequest = HttpRequest
                 .newBuilder()
                 .uri(targetURI)

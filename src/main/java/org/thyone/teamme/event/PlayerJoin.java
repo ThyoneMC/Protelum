@@ -19,11 +19,11 @@ public class PlayerJoin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        ServerVerifyResponse response = null;
+        ServerVerifyResponse response;
         try {
             ServerRequest client = new ServerRequest();
 
-            response = client.findVerification(player.getUniqueId());
+            response = client.deleteVerification(player.getUniqueId());
             if (response == null) return;
         } catch (UnknownHostException exception) {
             player.sendMessage(

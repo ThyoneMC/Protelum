@@ -4,7 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.thyone.teamme.command.CommandManager;
 import org.thyone.teamme.command.CommandTabCompletion;
 import org.thyone.teamme.event.PlayerJoin;
-import org.thyone.teamme.model.RefreshRunnable;
+import org.thyone.teamme.util.RefreshRunnable;
 import org.thyone.teamme.util.ConfigFile;
 import org.thyone.teamme.util.TeamStorage;
 
@@ -20,6 +20,8 @@ public final class Protelum extends JavaPlugin {
     public static Protelum getPlugin() {
         return plugin;
     }
+
+    private ScheduledExecutorService executor;
 
     @Override
     public void onEnable() {
@@ -37,13 +39,16 @@ public final class Protelum extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
 
+        this.executor = Executors.newScheduledThreadPool(1);
+
         long RefreshRate = ConfigFile.getConfig().REFRESH_RATE;
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleWithFixedDelay(RefreshRunnable.RefreshTeam(), RefreshRate * 2, RefreshRate, TimeUnit.SECONDS);
     }
 
     @Override
     public void onDisable() {
+        executor.shutdown();
+
         try {
             TeamStorage.save();
         } catch (IOException exception) {

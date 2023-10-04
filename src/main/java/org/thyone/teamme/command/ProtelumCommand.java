@@ -20,5 +20,5 @@ public class ProtelumCommand extends SubCommandGroup {
     @Override
     public SubCommandBase[] getSubCommand() {
         return new SubCommandBase[]{ new DiscordCommand(), new TeamCommand() };
-    };
+    }
 }

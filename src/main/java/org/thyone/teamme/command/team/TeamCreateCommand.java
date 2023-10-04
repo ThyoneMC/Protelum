@@ -3,7 +3,6 @@ package org.thyone.teamme.command.team;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.Protelum;
@@ -17,7 +16,7 @@ import java.util.logging.Level;
 public class TeamCreateCommand extends SubCommand {
     @Override
     public @NotNull String getName() {
-        return "add";
+        return "create";
     }
 
     @Override

@@ -16,7 +16,6 @@ import org.thyone.teamme.util.TeamStorage;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class TeamGetMemberCommand extends SubCommand {
     @Override

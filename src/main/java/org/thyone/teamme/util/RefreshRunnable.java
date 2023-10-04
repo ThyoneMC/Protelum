@@ -1,8 +1,7 @@
-package org.thyone.teamme.model;
+package org.thyone.teamme.util;
 
 import org.thyone.teamme.Protelum;
-import org.thyone.teamme.util.ServerRequest;
-import org.thyone.teamme.util.TeamStorage;
+import org.thyone.teamme.model.Team;
 
 import java.util.logging.Level;
 
@@ -11,9 +10,7 @@ public class RefreshRunnable {
         return () -> {
             try {
                 ServerRequest client = new ServerRequest();
-                client.teamsUpdate(TeamStorage.storage.readAll().toArray(Team[]::new));
-
-                Protelum.getPlugin().getLogger().log(Level.INFO, "Team package sent");
+                client.teamUpdate(TeamStorage.storage.readAll().toArray(Team[]::new));
             } catch (Exception exception) {
                 Protelum.getPlugin().getLogger().log(Level.WARNING, exception.getMessage(), exception.getCause());
             }

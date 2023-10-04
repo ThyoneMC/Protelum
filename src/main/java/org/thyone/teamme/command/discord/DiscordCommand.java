@@ -36,7 +36,7 @@ public class DiscordCommand extends SubCommand {
 
         try {
             ServerRequest client = new ServerRequest();
-            client.addVerification(player.getUniqueId(), verifyCode);
+            client.createVerification(player.getUniqueId(), verifyCode);
         } catch (UnknownHostException exception) {
             return new TextComponent[]{
                     Component

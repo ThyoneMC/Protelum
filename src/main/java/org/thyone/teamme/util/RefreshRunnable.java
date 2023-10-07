@@ -1,6 +1,7 @@
 package org.thyone.teamme.util;
 
 import org.thyone.teamme.Protelum;
+import org.thyone.teamme.database.TeamStorage;
 import org.thyone.teamme.model.Team;
 
 import java.util.logging.Level;

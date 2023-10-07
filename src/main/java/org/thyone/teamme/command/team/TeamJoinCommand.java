@@ -6,7 +6,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.model.*;
-import org.thyone.teamme.util.TeamStorage;
+import org.thyone.teamme.database.TeamStorage;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -25,7 +25,7 @@ public class TeamJoinCommand extends SubCommand {
     @Override
     public SubCommandSyntax[] getSyntax() {
         return new SubCommandSyntax[]{
-                new TeamInviteNameSyntax()
+                new TeamJoinIdSyntax()
         };
     }
 

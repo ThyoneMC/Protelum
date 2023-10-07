@@ -4,9 +4,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.thyone.teamme.command.CommandManager;
 import org.thyone.teamme.command.CommandTabCompletion;
 import org.thyone.teamme.event.PlayerJoin;
+import org.thyone.teamme.database.DiscordMemberStorage;
+import org.thyone.teamme.event.PlayerTakeDamage;
+import org.thyone.teamme.model.ProtelumConfig;
 import org.thyone.teamme.util.RefreshRunnable;
-import org.thyone.teamme.util.ConfigFile;
-import org.thyone.teamme.util.TeamStorage;
+import org.thyone.teamme.database.ConfigFile;
+import org.thyone.teamme.database.TeamStorage;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
@@ -29,19 +32,23 @@ public final class Protelum extends JavaPlugin {
 
         try {
             TeamStorage.load();
+            DiscordMemberStorage.load();
             ConfigFile.load();
         } catch (IOException exception) {
             getLogger().log(Level.SEVERE, exception.getMessage(), exception.getCause());
         }
 
+        ProtelumConfig config = ConfigFile.getConfig();
+
         getCommand("protelum").setExecutor(new CommandManager());
         getCommand("protelum").setTabCompleter(new CommandTabCompletion());
 
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+        if (!config.TEAM_ATTACK) getServer().getPluginManager().registerEvents(new PlayerTakeDamage(), this);
 
         this.executor = Executors.newScheduledThreadPool(1);
 
-        long RefreshRate = ConfigFile.getConfig().REFRESH_RATE;
+        long RefreshRate = config.REFRESH_RATE;
         executor.scheduleWithFixedDelay(RefreshRunnable.RefreshTeam(), RefreshRate * 2, RefreshRate, TimeUnit.SECONDS);
     }
 
@@ -51,6 +58,7 @@ public final class Protelum extends JavaPlugin {
 
         try {
             TeamStorage.save();
+            DiscordMemberStorage.save();
         } catch (IOException exception) {
             getLogger().log(Level.WARNING, exception.getMessage(),exception.getCause());
         }

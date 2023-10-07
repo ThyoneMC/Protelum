@@ -6,11 +6,6 @@ import org.thyone.teamme.model.SubCommandSyntax;
 public class TeamCreateNameSyntax extends SubCommandSyntax {
 
     @Override
-    public int getId() {
-        return 1;
-    }
-
-    @Override
     public @NotNull String getName() {
         return "name";
     }

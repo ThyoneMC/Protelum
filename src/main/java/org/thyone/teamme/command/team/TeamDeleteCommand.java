@@ -9,7 +9,7 @@ import org.thyone.teamme.Protelum;
 import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
-import org.thyone.teamme.util.TeamStorage;
+import org.thyone.teamme.database.TeamStorage;
 
 import java.io.IOException;
 import java.util.logging.Level;

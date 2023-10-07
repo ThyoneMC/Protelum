@@ -3,16 +3,16 @@ package org.thyone.teamme.command.team;
 import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.model.SubCommandSyntax;
 
-public class TeamDeleteNameSyntax extends SubCommandSyntax {
+public class TeamJoinIdSyntax extends SubCommandSyntax {
 
     @Override
     public @NotNull String getName() {
-        return "name";
+        return "uuid";
     }
 
     @Override
     public String getDescription() {
-        return "name of team";
+        return "uuid of team";
     }
 
     @Override

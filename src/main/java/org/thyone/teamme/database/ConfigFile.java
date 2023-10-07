@@ -1,4 +1,4 @@
-package org.thyone.teamme.util;
+package org.thyone.teamme.database;
 
 import com.google.gson.Gson;
 import org.thyone.teamme.Protelum;

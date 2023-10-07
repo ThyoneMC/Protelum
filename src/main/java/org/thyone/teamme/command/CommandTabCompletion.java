@@ -3,11 +3,10 @@ package org.thyone.teamme.command;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.thyone.teamme.model.SubCommand;
-import org.thyone.teamme.model.SubCommandBase;
-import org.thyone.teamme.model.SubCommandGroup;
+import org.thyone.teamme.model.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,15 +28,41 @@ public class CommandTabCompletion implements TabCompleter {
         }
     }
 
-    public CommandTabCompletionResult handleCommand(String[] args, SubCommandBase[] subCommandsBase) {
+    public CommandTabCompletionResult handleSyntax(Player sender, String[] args, SubCommandSyntax[] subCommandsSyntax) {
+        int index = 1;
+
+        for (SubCommandSyntax subCommandSyntax: subCommandsSyntax) {
+            if (args.length > 0 && index == args.length) {
+                if (subCommandSyntax instanceof SubCommandCustomSyntax subCommandCustomSyntax) {
+                    return new CommandTabCompletionResult(subCommandCustomSyntax.getTabCompletion(sender, ""));
+                }
+            }
+
+            index = index + 1;
+        }
+
+        return new CommandTabCompletionResult(true);
+    }
+
+    public CommandTabCompletionResult handleCommand(Player sender, String[] args, SubCommandBase[] subCommandsBase) {
         for (SubCommandBase subCommandBase: subCommandsBase) {
             if (args.length > 0 && args[0].equalsIgnoreCase(subCommandBase.getName())) {
-                if (subCommandBase instanceof SubCommand) {
+                if (subCommandBase instanceof SubCommand subCommand) {
+                    SubCommandSyntax[] subCommandsSyntax = subCommand.getSyntax();
+                    if (subCommandsSyntax.length > 0) {
+                        return handleSyntax(
+                                sender,
+                                Arrays.copyOfRange(args, 1, args.length),
+                                subCommandsSyntax
+                        );
+                    }
+
                     return new CommandTabCompletionResult(true);
                 }
 
                 if (subCommandBase instanceof SubCommandGroup subCommandGroup) {
                     CommandTabCompletionResult handled = handleCommand(
+                            sender,
                             Arrays.copyOfRange(args, 1, args.length),
                             subCommandGroup.getSubCommand()
                     );
@@ -58,7 +83,10 @@ public class CommandTabCompletion implements TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (!(sender instanceof Player player)) return new ArrayList<>();
+
         CommandTabCompletionResult handled = handleCommand(
+                player,
                 args,
                 new ProtelumCommand().getSubCommand()
         );

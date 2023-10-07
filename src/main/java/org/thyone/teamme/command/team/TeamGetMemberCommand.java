@@ -12,7 +12,7 @@ import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
 import org.thyone.teamme.model.TeamMember;
-import org.thyone.teamme.util.TeamStorage;
+import org.thyone.teamme.database.TeamStorage;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;

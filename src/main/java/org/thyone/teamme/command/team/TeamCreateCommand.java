@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.Protelum;
 import org.thyone.teamme.model.*;
-import org.thyone.teamme.util.TeamStorage;
+import org.thyone.teamme.database.TeamStorage;
 
 import java.io.IOException;
 import java.util.UUID;

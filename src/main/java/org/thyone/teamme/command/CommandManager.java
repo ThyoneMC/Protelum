@@ -20,8 +20,10 @@ public class CommandManager implements CommandExecutor {
     public boolean handleCommand(Player player, String[] args, SubCommandBase subCommandBase, int index) {
         if (args.length > index && args[index].equalsIgnoreCase(subCommandBase.getName())) {
             if (subCommandBase instanceof SubCommand subCommand) {
+                int _index = 1;
+
                 for (SubCommandSyntax subCommandSyntax: subCommand.getSyntax()) {
-                    if (!(args.length > (index + subCommandSyntax.getId())) && subCommandSyntax.getRequired()) {
+                    if (!(args.length > (index + _index)) && subCommandSyntax.getRequired()) {
                         player.sendMessage(
                                 Component
                                         .text(MessageFormat.format(
@@ -41,6 +43,8 @@ public class CommandManager implements CommandExecutor {
                         );
                         return true;
                     }
+
+                    _index = _index + 1;
                 }
 
                 TextComponent[] returnMessages = subCommand.execute(player, Arrays.copyOfRange(args, index + 1, args.length));

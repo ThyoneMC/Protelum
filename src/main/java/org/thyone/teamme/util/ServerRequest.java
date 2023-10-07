@@ -2,6 +2,7 @@ package org.thyone.teamme.util;
 
 import com.google.gson.Gson;
 import org.jetbrains.annotations.Nullable;
+import org.thyone.teamme.database.ConfigFile;
 import org.thyone.teamme.model.ServerResponse;
 import org.thyone.teamme.model.ServerVerifyResponse;
 import org.thyone.teamme.model.Team;

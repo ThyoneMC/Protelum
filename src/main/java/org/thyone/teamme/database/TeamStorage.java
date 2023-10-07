@@ -1,9 +1,10 @@
-package org.thyone.teamme.util;
+package org.thyone.teamme.database;
 
 import org.thyone.teamme.Protelum;
 import org.thyone.teamme.model.Team;
 import org.thyone.teamme.model.TeamMember;
 import org.thyone.teamme.model.TeamRole;
+import org.thyone.teamme.util.ServerRequest;
 
 import java.io.*;
 import java.util.UUID;
@@ -64,6 +65,16 @@ public class TeamStorage {
         }
 
         return null;
+    }
+
+    public static boolean isEqualTeam(UUID uuid1, UUID uuid2) {
+        for (Team team: storage.readAll()) {
+            if (team.getMember(uuid1) != null && team.getMember(uuid2) != null) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // storage

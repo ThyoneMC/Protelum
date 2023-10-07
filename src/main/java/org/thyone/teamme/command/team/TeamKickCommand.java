@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
-import org.thyone.teamme.util.TeamStorage;
+import org.thyone.teamme.database.TeamStorage;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -26,7 +26,9 @@ public class TeamKickCommand extends SubCommand {
 
     @Override
     public SubCommandSyntax[] getSyntax() {
-        return new SubCommandSyntax[]{new TeamInviteNameSyntax()};
+        return new SubCommandSyntax[]{
+                new TeamKickNameSyntax(),
+        };
     }
 
     @Override
@@ -47,6 +49,8 @@ public class TeamKickCommand extends SubCommand {
                             .text("You can not kick owner of the team")
                             .color(NamedTextColor.RED)
             };
+
+        team.members.removeIf(member -> member.uuid.equals(targetPlayerUUID));
 
         try {
             TeamStorage.update(team.uuid, team);

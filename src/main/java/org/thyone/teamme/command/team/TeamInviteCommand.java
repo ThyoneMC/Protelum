@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.thyone.teamme.model.SubCommand;
 import org.thyone.teamme.model.SubCommandSyntax;
 import org.thyone.teamme.model.Team;
-import org.thyone.teamme.util.TeamStorage;
+import org.thyone.teamme.database.TeamStorage;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -73,7 +73,7 @@ public class TeamInviteCommand extends SubCommand {
 
         TextComponent textSayJoin =
                 Component
-                        .text(MessageFormat.format("<{0}> are invite you to [ JOIN THE TEAM ]", targetPlayer.getName()))
+                        .text(MessageFormat.format("<{0}> are invite you to [ JOIN THE TEAM ]", player.getName()))
                         .color(NamedTextColor.GOLD)
                         .clickEvent(ClickEvent.suggestCommand(MessageFormat.format("/protelum team join {0}", teamOwn.uuid)));
         targetPlayer.sendMessage(textSayJoin);

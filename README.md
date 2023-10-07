@@ -9,9 +9,16 @@ Port of server
 }
 ```
 
-Refresh Rate of Discord Roles, Channels (in seconds)
+Refresh Rate of Discord Roles, and Channels (in seconds)
 ```json
 {
   "REFRESH_RATE": 300
+}
+```
+
+Can players in the same team fight each other
+```json
+{
+  "TEAM_ATTACK": true
 }
 ```

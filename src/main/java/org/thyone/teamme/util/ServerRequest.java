@@ -27,8 +27,10 @@ public class ServerRequest {
         this.client = HttpClient.newHttpClient();
     }
 
+    //verify
+
     public ServerResponse createVerification(UUID uuid, String verifyCode) {
-        URI targetURI = URI.create(MessageFormat.format("{0}/verify/{1}/{2}", this.baseURL, uuid.toString(), verifyCode));
+        URI targetURI = URI.create(MessageFormat.format("{0}/verify/create/{1}/{2}", this.baseURL, uuid, verifyCode));
         HttpRequest httpRequest = HttpRequest
                 .newBuilder()
                 .uri(targetURI)
@@ -45,7 +47,7 @@ public class ServerRequest {
     }
 
     public @Nullable ServerVerifyResponse deleteVerification(UUID uuid) {
-        URI targetURI = URI.create(MessageFormat.format("{0}/verify/{1}", this.baseURL, uuid));
+        URI targetURI = URI.create(MessageFormat.format("{0}/verify/delete/{1}", this.baseURL, uuid));
         HttpRequest httpRequest = HttpRequest
                 .newBuilder()
                 .uri(targetURI)
@@ -64,8 +66,10 @@ public class ServerRequest {
         return new Gson().fromJson(response, ServerVerifyResponse.class);
     }
 
+    //team
+
     public void teamUpdate(Team[] data) throws IOException, InterruptedException {
-        URI targetURI = URI.create(MessageFormat.format("{0}/team", this.baseURL));
+        URI targetURI = URI.create(MessageFormat.format("{0}/team/update", this.baseURL));
 
         String body = new Gson().toJson(data);
         HttpRequest httpRequest = HttpRequest
@@ -80,12 +84,38 @@ public class ServerRequest {
     }
 
     public void teamDelete(UUID uuid) {
-        URI targetURI = URI.create(MessageFormat.format("{0}/team/{1}", this.baseURL, uuid));
+        URI targetURI = URI.create(MessageFormat.format("{0}/team/delete/{1}", this.baseURL, uuid));
         HttpRequest httpRequest = HttpRequest
                 .newBuilder()
                 .uri(targetURI)
                 .header("Accept", "application/json")
                 .DELETE()
+                .build();
+
+        client.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
+    }
+
+    //notify
+
+    public void notifyStart() {
+        URI targetURI = URI.create(MessageFormat.format("{0}/notify/server/start/{1}", this.baseURL, ConfigFile.getConfig().PUBLIC_ADDRESS));
+        HttpRequest httpRequest = HttpRequest
+                .newBuilder()
+                .uri(targetURI)
+                .header("Accept", "application/json")
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        client.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public void notifyStop() {
+        URI targetURI = URI.create(MessageFormat.format("{0}/notify/server/stop/{1}", this.baseURL, ConfigFile.getConfig().PUBLIC_ADDRESS));
+        HttpRequest httpRequest = HttpRequest
+                .newBuilder()
+                .uri(targetURI)
+                .header("Accept", "application/json")
+                .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
         client.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());

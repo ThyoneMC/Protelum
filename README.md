@@ -15,3 +15,22 @@ Refresh Rate of Discord Roles, Channels (in seconds)
   "REFRESH_RATE": 300
 }
 ```
+
+Allow Team Attack
+```json
+{
+  "TEAM_ATTACK": true
+}
+```
+
+Public Server Address
+```json
+{
+  "PUBLIC_ADDRESS": "192.168.1.1"
+}
+```
+```json
+{
+  "PUBLIC_ADDRESS": "example.com"
+}
+```

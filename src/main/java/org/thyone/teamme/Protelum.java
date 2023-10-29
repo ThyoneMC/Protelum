@@ -10,6 +10,7 @@ import org.thyone.teamme.model.ProtelumConfig;
 import org.thyone.teamme.util.RefreshRunnable;
 import org.thyone.teamme.database.ConfigFile;
 import org.thyone.teamme.database.TeamStorage;
+import org.thyone.teamme.util.ServerRequest;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
@@ -34,6 +35,8 @@ public final class Protelum extends JavaPlugin {
             TeamStorage.load();
             DiscordMemberStorage.load();
             ConfigFile.load();
+
+            new ServerRequest().notifyStart();
         } catch (IOException exception) {
             getLogger().log(Level.SEVERE, exception.getMessage(), exception.getCause());
         }
@@ -59,6 +62,8 @@ public final class Protelum extends JavaPlugin {
         try {
             TeamStorage.save();
             DiscordMemberStorage.save();
+
+            new ServerRequest().notifyStop();
         } catch (IOException exception) {
             getLogger().log(Level.WARNING, exception.getMessage(),exception.getCause());
         }
